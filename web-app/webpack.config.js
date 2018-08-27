@@ -5,7 +5,10 @@ const port = process.env.PORT || 3000;
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: {
+    vendor: ['semantic-ui-react'],
+    app: './src/index.js'
+  },
   output: {
     filename: '[name].[hash].js',
     publicPath: '/',
@@ -49,5 +52,17 @@ module.exports = {
     historyApiFallback: true,
     open: true,
     hot: true,
-  }
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: 'initial',
+          test: 'vendor',
+          name: 'vendor',
+          enforce: true
+        }
+      }
+    }
+  },
 };
