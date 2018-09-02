@@ -22,21 +22,27 @@ module.exports = {
         use: ['babel-loader']
       },
       {
-        test: /\.css$/,
+        test: /\.scss$/,
         use: [
           {
             loader: 'style-loader'
           },
           {
             loader: 'css-loader',
-            options: {
-              modules: true,
-              camelCase: true,
-              sourceMap: true
-            }
+          },
+          {
+            loader: 'sass-loader',
+          },
+        ]
+      },
+      {
+        test: /\.(ico|gif|png|jpe?g|svg)$/,
+        loaders: [
+          {
+            loader: 'file-loader',
           }
         ]
-      }
+      },
     ]
   },
   plugins: [

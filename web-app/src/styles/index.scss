@@ -1,0 +1,21 @@
+@import "~bootstrap/scss/bootstrap";
+
+body {
+  background-color: #ebebeb;
+  font-family: Proxima Nova,
+  -apple-system,
+  Helvetica Neue,
+  Helvetica,
+  Roboto,
+  Arial,
+  sans-serif;
+}
+
+.section-header {
+  margin: 48px 0;
+  h1 {
+    font-size: 26px;
+    font-weight: 300;
+    margin: 0 0 0 8px;
+  }
+}
