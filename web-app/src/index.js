@@ -2,6 +2,7 @@ import { AppContainer } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
+import registerServiceWorker from './registerServiceWorker';
 
 const render = Component =>
   ReactDOM.render(
