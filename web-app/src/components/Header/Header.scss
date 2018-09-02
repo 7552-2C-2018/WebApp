@@ -1,0 +1,16 @@
+.navbar {
+  background-color: #fff159 !important;
+  img {
+    height: 50px;
+  }
+  .nav-item {
+    padding-right: 22px;
+    a {
+      color: rgba(51, 51, 51, .6);
+      &:hover {
+        color: rgba(51, 51, 51, .9);
+        text-decoration: none;
+      }
+    }
+  }
+}
