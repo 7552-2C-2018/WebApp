@@ -62,7 +62,7 @@ Table.propTypes = {
   pageSize: PropTypes.number,
   columns: PropTypes.arrayOf(PropTypes.shape({
     Header: PropTypes.string.isRequired,
-    accesor: PropTypes.any.isRequired,
+    accessor: PropTypes.any.isRequired,
     id: PropTypes.string,
   })).isRequired,
   requestData: PropTypes.func.isRequired,
