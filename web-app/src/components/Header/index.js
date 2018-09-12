@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import './Header.scss';
 import logo from './logo.png';
 import { Link } from 'react-router-dom';
+import store from 'store';
+import isLoggedIn from '../../utils/isLoggedIn';
 import {
   Collapse,
   Navbar,
@@ -22,6 +24,7 @@ export default class Header extends React.Component {
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     this.state = {
       isOpen: false
     };
@@ -31,6 +34,11 @@ export default class Header extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
+
+  handleLogout() {
+    store.remove('loggedIn');
+  }
+
   render() {
     const { isLogged } = this.props;
     return (
@@ -42,7 +50,7 @@ export default class Header extends React.Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              { isLogged ? (
+              { isLoggedIn() ? (
                 <React.Fragment>
                   <NavItem>
                     <Link to="/shipping">Envíos</Link>
@@ -56,28 +64,15 @@ export default class Header extends React.Component {
                   <NavItem>
                     <Link to="/reports">Reportes</Link>
                   </NavItem>
-                  <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret>
-                      Mi cuenta
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>
-                        <Link to="/my-account">Mi cuenta</Link>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <Link to="/logout">Cerrar sesión</Link>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
+                  <NavItem>
+                    <a href="#" onClick={this.handleLogout}>Cerrar sesión</a>
+                  </NavItem>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
                   <NavItem>
                     <Link to="/login">Iniciar sesión</Link>
                   </NavItem>
-                  <NavItem>
-                    <Link to="/signup">Crear cuenta</Link>
-                  </NavItem>  
                 </React.Fragment>    
               ) 
               }
