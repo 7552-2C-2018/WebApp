@@ -4,8 +4,8 @@ import importedComponent from 'react-imported-component';
 import './../styles/index.scss';
 import Home from './Home';
 import Loading from './Loading';
-const AsyncNoMatch = importedComponent(
-  () => require('./NoMatch'),
+const Login = importedComponent(
+  () => require('./Login'),
   {
     LoadingComponent: Loading
   }
@@ -17,7 +17,7 @@ const App = () => {
       <div>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route component={AsyncNoMatch} />
+          <Route path="/login" component={Login} />
         </Switch>
       </div>
     </Router>

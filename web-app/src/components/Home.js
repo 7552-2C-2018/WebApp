@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Layout from './Layout';
 import Table from './Table';
 import { requestData } from '../utils/mockData';
+import isLoggedIn from '../utils/isLoggedIn';
 
 const columns = [
   {
@@ -21,6 +22,9 @@ const columns = [
 ];
 
 const Home = () => {
+  if (!isLoggedIn()) {
+    return <Redirect to="/login" />;
+  }
   return (
     <Layout title="Home">
       <p>Hello World of React and Webpack! Hot reloaded</p>
