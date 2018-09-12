@@ -27,7 +27,6 @@ const Home = () => {
   }
   return (
     <Layout title="Home">
-      <p>Hello World of React and Webpack! Hot reloaded</p>
       <Table requestData={requestData} columns={columns} />
     </Layout>
   );
