@@ -5,6 +5,7 @@ import styles from './Login.scss';
 import Layout from '../Layout/index';
 import isLoggedIn from '../../utils/isLoggedIn';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 class Login extends React.Component {
   constructor(props) {
@@ -29,8 +30,17 @@ class Login extends React.Component {
     if (!(username === 'admin' && password === 'admin')) {
       return this.setState({ error: true });
     }
-    store.set('loggedIn', true);
-    history.push('/');
+    axios.post('http://shared-server-25.herokuapp.com/api/auth/token', { id: 3 })
+      .then(response => {
+        store.set('token', response.data.token);
+        store.set('expiresAt', response.data.expiresAt);
+        history.push('/');
+      })
+      .catch(error => {
+        this.setState({
+          error: true,
+        });
+      })
   }
 
   handleChange(e, { name, value }) {
