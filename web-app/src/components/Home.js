@@ -114,7 +114,7 @@ const Home = () => {
     return <Redirect to="/login" />;
   }
   return (
-    <Layout title="Home">
+    <Layout title="Application Servers">
       <Table requestGet={requestGet} requestPut={requestPut} requestDelete={requestDelete} requestPost={requestPost} columns={columns} />
     </Layout>
   );

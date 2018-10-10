@@ -196,7 +196,7 @@ export default class Table extends React.Component {
   }
 
   render() {
-    const { columns, requestDelete } = this.props;
+    const { columns, requestDelete, requestPost, requestEditable, keyField } = this.props;
     const { data, pages, loading, pageSize, selectAll, selection } = this.state;
     const { isSelected, toggleSelection, toggleAll } = this;
     const columnsToShow = columns.map(column => {
@@ -205,25 +205,19 @@ export default class Table extends React.Component {
       }
       return column;
     });
-    if (requestDelete) {
-      columnsToShow.push([{
-        Header: 'Actions',
-        Cell: this.renderActions,
-      }]);
-    }
     const checkboxProps = {
       selectAll,
       isSelected,
       toggleSelection,
       toggleAll,
       selectType: 'checkbox',
-      keyField: 'id',
+      keyField,
     };
     return (
       <React.Fragment>
         <div className="" style={{ marginBottom: '5px'}}>  
           {selection.length > 0 && <Button color="danger" onClick={this.onDelete} style={{ marginRight: '5px'}}>Eliminar</Button>}
-          <Button color="primary" onClick={this.toggleModal}>Crear</Button>
+          {requestPost && <Button color="primary" onClick={this.toggleModal}>Crear</Button>}
         </div>
         <div className="table">
           <CheckboxTable
@@ -245,7 +239,7 @@ export default class Table extends React.Component {
           <ModalBody>
             <Form>  
             {columns.map(column => {
-              if (column.isEditable) {
+              if (column.isEditable && requestEditable) {
                 return (
                   <FormGroup>
                     <Label>{column.Header}</Label>
@@ -277,8 +271,10 @@ Table.propTypes = {
   })).isRequired,
   requestGet: PropTypes.func.isRequired,
   requestPut: PropTypes.func.isRequired,
+  keyField: PropTypes.string,
 }
 
 Table.defaultProps = {
   pageSize: 30,
+  keyField: 'id',
 }
