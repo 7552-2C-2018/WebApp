@@ -239,7 +239,7 @@ export default class Table extends React.Component {
           <ModalBody>
             <Form>  
             {columns.map(column => {
-              if (column.isEditable && requestEditable) {
+              if (column.isEditable && requestPost) {
                 return (
                   <FormGroup>
                     <Label>{column.Header}</Label>
