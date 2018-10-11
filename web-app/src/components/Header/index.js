@@ -36,7 +36,8 @@ export default class Header extends React.Component {
   }
 
   handleLogout() {
-    store.remove('loggedIn');
+    store.remove('expiredAt');
+    store.remove('token');
   }
 
   render() {
