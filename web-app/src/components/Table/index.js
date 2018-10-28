@@ -196,7 +196,7 @@ export default class Table extends React.Component {
   }
 
   render() {
-    const { columns, requestDelete, requestPost, requestEditable, keyField } = this.props;
+    const { columns, requestDelete, requestPost, requestEditable, keyField, subcomponentGenerator } = this.props;
     const { data, pages, loading, pageSize, selectAll, selection } = this.state;
     const { isSelected, toggleSelection, toggleAll } = this;
     const columnsToShow = columns.map(column => {
@@ -231,6 +231,7 @@ export default class Table extends React.Component {
             defaultPageSize={pageSize}
             className="-striped -highlight"
             ref={r => (this.checkboxTable = r)}
+            SubComponent={subcomponentGenerator}
             {...checkboxProps}
           />
         </div>
@@ -272,9 +273,11 @@ Table.propTypes = {
   requestGet: PropTypes.func.isRequired,
   requestPut: PropTypes.func.isRequired,
   keyField: PropTypes.string,
+  subcomponentGenerator: PropTypes.func,
 }
 
 Table.defaultProps = {
   pageSize: 30,
   keyField: 'id',
+  subcomponentGenerator: null,
 }

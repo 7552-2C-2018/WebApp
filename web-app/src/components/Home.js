@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Loader } from 'semantic-ui-react';
+import axios from 'axios';
 import Layout from './Layout';
 import Table from './Table';
 import restclient from '../utils/restclient';
@@ -36,7 +39,7 @@ const columns = [
   {
     Header: 'Created time',
     accessor: 'createdtime'
-  }
+  },
 ];
 
 const requestGet = (pageSize, page, sorted, filtered) => (
@@ -109,15 +112,75 @@ const requestPost = (data) => (
     })
 );
 
-const Home = () => {
-  if (!isLoggedIn()) {
-    return <Redirect to="/login" />;
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showLoading: false,
+      modal: false,
+      isWorking: false,
+      currentAppServerId: null,
+    };
+    this.toggleModal = this.toggleModal.bind(this);
   }
-  return (
-    <Layout title="Application Servers">
-      <Table requestGet={requestGet} requestPut={requestPut} requestDelete={requestDelete} requestPost={requestPost} columns={columns} />
-    </Layout>
-  );
+
+  toggleModal() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+
+  requestState(appServer) {
+    this.setState({
+      currentAppServerId: appServer.id,
+      showLoading: true,
+    });
+    axios.get(`${appServer.url}/ping`)
+      .then(response => {
+        console.log("RESPONSE", response);
+        this.setState({
+          isWorking: true,
+          showLoading: false,
+        });
+        this.toggleModal();
+      })
+      .catch(error => {
+        console.log("ERROR", error);
+        this.setState({
+          isWorking: false,
+          showLoading: false,
+        });
+        this.toggleModal();
+      })
+  }
+
+  render() {
+    if (!isLoggedIn()) {
+      return <Redirect to="/login" />;
+    }
+    const currentStateButton = row => (
+      <Button color="primary" onClick={() => this.requestState(row.original)}>Consultar estado</Button>
+    );
+    return (
+      <Layout title="Application Servers">
+        <Table
+          requestGet={requestGet}
+          requestPut={requestPut}
+          requestDelete={requestDelete}
+          requestPost={requestPost}
+          columns={columns}
+          subcomponentGenerator={currentStateButton}
+        />
+        <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>Estado del application server #{this.state.currentAppServerId}</ModalHeader>
+          <ModalBody>
+            {this.state.isWorking ? 'Está prendido' : 'Está apagado'}
+          </ModalBody>
+        </Modal>
+        <Loader active={this.state.showLoading} size="massive" />
+      </Layout>
+    );
+  }
 };
 
 export default Home;
