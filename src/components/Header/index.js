@@ -54,7 +54,7 @@ export default class Header extends React.Component {
               { isLoggedIn() ? (
                 <React.Fragment>
                   <NavItem>
-                    <Link to="/shipping">Envíos</Link>
+                    <Link to="/shipments">Envíos</Link>
                   </NavItem>
                   <NavItem>
                     <Link to="/payments">Pagos</Link>

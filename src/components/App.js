@@ -5,6 +5,8 @@ import './../styles/index.scss';
 import Home from './Home';
 import Loading from './Loading';
 import Payments from './Payments';
+import Shipments from './Shipments';
+
 const Login = importedComponent(
   () => require('./Login'),
   {
@@ -19,7 +21,9 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
+          <Route exact path="/application-servers" component={Home} />
           <Route exact path="/payments" component={Payments} />
+          <Route exact path="/shipments" component={Shipments} />
         </Switch>
       </div>
     </Router>
