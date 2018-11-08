@@ -18,11 +18,13 @@ const columns = [
     Header: 'Name',
     accessor: 'name',
     isEditable: true,
+    requiredAtCreation: true,
   },
   {
     Header: "Url",
     accessor: 'url',
     isEditable: true,
+    requiredAtCreation: true,
   },
   {
     Header: 'Rev',

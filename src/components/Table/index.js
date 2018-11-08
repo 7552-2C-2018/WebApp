@@ -240,12 +240,12 @@ export default class Table extends React.Component {
           <ModalBody>
             <Form>  
             {columns.map(column => {
-              if (column.isEditable && requestPost) {
+              if (column.requiredAtCreation && requestPost) {
                 return (
                   <FormGroup>
                     <Label>{column.Header}</Label>
-                    <Input type="text" name={column.accessor} onChange={(event) => {
-                      this.onModalChange(column.accessor, event.target.value);
+                    <Input type="text" name={column.id} onChange={(event) => {
+                      this.onModalChange(column.id, event.target.value);
                     }}></Input>
                   </FormGroup>  
                 );
