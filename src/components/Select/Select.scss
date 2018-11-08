@@ -1,0 +1,8 @@
+.dropdown.show {
+  .dropdown-menu.show {
+    position: relative !important;
+    top: unset !important;
+    left: unset !important;
+    transform: none !important;
+  }
+}
