@@ -8,6 +8,7 @@ import Table from './Table';
 import restclient from '../utils/restclient';
 import isLoggedIn from '../utils/isLoggedIn';
 import fetch from 'node-fetch';
+import { setLastStatusAsConnected, setLastStatusAsDisconnected, getLastStatus } from '../utils/appServers';
 
 const columns = [
   {
@@ -31,8 +32,9 @@ const columns = [
     accessor: 'rev'
   },
   {
-    Header: 'Last connection',
-    accessor: 'lastconnection'
+    Header: 'Last status',
+    id: 'last_status',
+    accessor: appServer => getLastStatus(appServer.id),
   },
   {
     Header: 'Created by',
@@ -144,6 +146,7 @@ class Home extends React.Component {
           isWorking: true,
           showLoading: false,
         });
+        setLastStatusAsConnected(appServer.id);
         this.toggleModal();
       })
       .catch(error => {
@@ -152,6 +155,7 @@ class Home extends React.Component {
           isWorking: false,
           showLoading: false,
         });
+        setLastStatusAsDisconnected(appServer.id)
         this.toggleModal();
       })
   }
