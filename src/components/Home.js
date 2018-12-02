@@ -27,10 +27,10 @@ const columns = [
     isEditable: true,
     requiredAtCreation: true,
   },
-  {
+  /*{
     Header: 'Rev',
     accessor: 'rev'
-  },
+  },*/
   {
     Header: 'Last status',
     id: 'last_status',
