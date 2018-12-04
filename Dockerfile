@@ -1,17 +1,20 @@
-# base image
-FROM node:9.6.1
+FROM node:latest
 
-# set working directory
-RUN mkdir /usr/src/app
+RUN npm install webpack -g
+
+WORKDIR /tmp
+COPY package.json /tmp/
+RUN npm config set registry http://registry.npmjs.org/ && npm install
+
 WORKDIR /usr/src/app
+COPY . /usr/src/app/
+RUN cp -a /tmp/node_modules /usr/src/app/
 
-# add `/usr/src/app/node_modules/.bin` to $PATH
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
+RUN webpack
 
-# install and cache app dependencies
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --silent
-RUN npm install react-scripts@1.1.1 -g --silent
+ENV NODE_ENV=production
+ENV PORT=4000
 
-# start app
-CMD npm run start
+CMD [ "/usr/local/bin/node", "./index.js" ]
+
+EXPOSE 4000

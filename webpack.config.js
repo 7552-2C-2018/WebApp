@@ -1,10 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const port = process.env.PORT || 3000;
-
 module.exports = {
-  mode: 'development',
   entry: {
     vendor: ['semantic-ui-react'],
     app: './src/index.js'
@@ -50,15 +47,8 @@ module.exports = {
       template: 'public/index.html',
       favicon: 'public/favicon.ico'
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(),  
   ],
-  devServer: {
-    host: 'localhost',
-    port: port,
-    historyApiFallback: true,
-    open: true,
-    hot: true,
-  },
   optimization: {
     splitChunks: {
       cacheGroups: {
