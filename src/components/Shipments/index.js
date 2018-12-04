@@ -11,82 +11,67 @@ import shipmentStatusOptions from './shipmentStatusOptions';
 const columns = [
   {
     Header: "Id",
-    id: 'id',
-    accessor: d => d.id
+    accessor: 'id',
   },
   {
     Header: 'Moneda',
-    id: 'Cost__currency',
-    accessor: d => d.Cost.currency,
+    accessor: 'currency',
     requiredAtCreation: true,
   },
   {
     Header: 'Monto',
-    id: 'Cost__value',
-    accessor: d => d.Cost.value,
+    accessor: 'value',
     requiredAtCreation: true,
   },
   {
     Header: 'Desde',
-    id: 'Start__address__street',
-    accessor: d => d.Start.address.street,
+    accessor: 'start_street',
     requiredAtCreation: true,
   },
   {
     Header: 'Latitud inicial',
-    id: 'Start__address__location__lat',
-    accessor: d => d.Start.address.location.lat,
+    accessor: 'start_lat',
     requiredAtCreation: true,
   },
   {
     Header: 'Longitud inicial',
-    id: 'Start__address__location__lon',
-    accessor: d => d.Start.address.location.lon,
+    accessor: 'start_lon',
     requiredAtCreation: true,
   },
   {
     Header: 'Hasta',
-    id: 'End__address__street',
-    accessor: d => d.End.address.street,
+    accessor: 'end_street',
     requiredAtCreation: true,
   },
   {
     Header: 'Latitud final',
-    id: 'End__address__location__lat',
-    accessor: d => d.End.address.location.lat,
+    accessor: 'end_lat',
     requiredAtCreation: true,
   },
   {
     Header: 'Longitud final',
-    id: 'End__address__location__lon',
-    accessor: d => d.End.address.location.lon,
+    accessor: 'end_lon',
     requiredAtCreation: true,
   },
   {
     Header: "Distancia",
-    id: 'distance',
-    accessor: d => d.distance,
+    accessor: 'distance',
     requiredAtCreation: true,
   },
   {
     Header: 'Estado',
-    id: 'State',
-    accessor: d => ({
-      state: d.State,
-      id: d.id,
-    }),
+    accessor: 'state',
     Cell: row => (
       <Select
-        currentValue={shipmentStatusOptions[row.value.state]}
+        currentValue={shipmentStatusOptions[row.original.state]}
         options={shipmentStatusOptions}
-        onChange={(newState) => requestPut(row.value.id, newState)}
+        onChange={(newState) => requestPut(row.original.id, newState)}
       />
     ),
   },
   {
     Header: "Owner Id",
-    id: 'ownerid',
-    accessor: d => d.ownerid,
+    accesor: 'ownerid',
     requiredAtCreation: true,
   },
 ];
@@ -96,7 +81,7 @@ const requestGet = (pageSize, page, sorted, filtered) => (
     .then(response => {
       console.log("RESPONSE", response);
       return {
-        rows: response.data.data.map(element => element.trips),
+        rows: response.data.data,
         pages: 1,
       }
     })
