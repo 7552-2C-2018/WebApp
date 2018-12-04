@@ -3,13 +3,13 @@ import { Link, Redirect } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Loader } from 'semantic-ui-react';
 import axios from 'axios';
-import Chart from './Chart';
-import Layout from './Layout';
-import Table from './Table';
-import restclient from '../utils/restclient';
-import isLoggedIn from '../utils/isLoggedIn';
+import Chart from '../Chart';
+import Layout from '../Layout';
+import Table from '../Table';
+import restclient from '../../utils/restclient';
+import isLoggedIn from '../../utils/isLoggedIn';
 import fetch from 'node-fetch';
-import { setLastStatusAsConnected, setLastStatusAsDisconnected, getLastStatus } from '../utils/appServers';
+import { setLastStatusAsConnected, setLastStatusAsDisconnected, getLastStatus } from '../../utils/appServers';
 
 const columns = [
   {
@@ -117,7 +117,7 @@ const requestPost = (data) => (
     })
 );
 
-class Home extends React.Component {
+class AppServers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -239,4 +239,4 @@ class Home extends React.Component {
   }
 };
 
-export default Home;
+export default AppServers;
