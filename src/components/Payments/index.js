@@ -15,52 +15,42 @@ const columns = [
   },
   {
     Header: 'Moneda',
-    id: 'currency',
-    accessor: d => d.currency,
+    accessor: 'currency',
     requiredAtCreation: true,
   },
   {
     Header: 'Monto',
-    id: 'value',
-    accessor: d => d.value,
+    accessor: 'value',
     requiredAtCreation: true,
   },
   {
     Header: 'Método de pago',
-    id: 'paymentMethod__type',
-    accessor: d => d.paymentmethod && d.paymentmethod.type,
+    accessor: 'type',
     requiredAtCreation: true,
   },
   {
     Header: 'Número de tarjeta',
-    id: 'paymentMethod__number',
-    accessor: d => d.paymentmethod && d.paymentmethod.number,
+    accessor: 'number',
     requiredAtCreation: true,
   },
   {
     Header: 'Mes de Vencimiento',
-    id: 'paymentMethod__expiration_month',
-    accessor: d => d.paymentmethod && d.paymentmethod.expiration_month,
+    accessor: 'expiration_month',
     requiredAtCreation: true,
   },
   {
     Header: 'Año de Vencimiento',
-    id: 'paymentMethod__expiration_year',
-    accessor: d => d.paymentmethod && d.paymentmethod.expiration_year,
+    accessor: 'expiration_year',
     requiredAtCreation: true,
   },
   {
     Header: 'Estado',
-    id: 'state',
-    accessor: d => ({
-      state: d.paymentmethod && d.paymentmethod.state,
-      id: d.transaction_id,
-    }), 
+    accessor: 'state', 
     Cell: row => (
       <Select
-        currentValue={paymentStatusOptions[row.value.state]}
+        currentValue={paymentStatusOptions[row.original.state]}
         options={paymentStatusOptions}
-        onChange={(newState) => requestPut(row.value.id, newState)}
+        onChange={(newState) => requestPut(row.original.transaction_id, newState)}
       />
     ),
   }
@@ -118,18 +108,9 @@ const requestPut = (transactionId, newStatus) => (
     })
 );
 
-const requestPost = (data) => {
+const requestPost = data => {
   console.log(data);
-  return restclient().post('/api/payments', {
-    currency: data.currency,
-    value: data.value,
-    paymentMethod: {
-      expiration_month: data.paymentMethod__expiration_month,
-      expiration_year: data.paymentMethod__expiration_year,
-      number: data.paymentMethod__number,
-      type: data.paymentMethod__type,
-    },
-  })
+  return restclient().post('/api/payments', data)
     .then(response => {
       console.log("RESPONSE", response);
       return {

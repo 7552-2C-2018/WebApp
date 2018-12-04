@@ -113,6 +113,8 @@ const requestDelete = (id) => (
 const requestPut = (id, newStatus) => (
   restclient().put(`/api/tracking/${id}`, {
     newState: newStatus,
+    start_time: 0,
+    end_time: 0,
   })
     .then(response => {
       console.log("RESPONSE", response);
@@ -129,36 +131,7 @@ const requestPut = (id, newStatus) => (
 );
 
 const requestPost = (data) => {
-  console.log(data);
-  return restclient().post('/api/tracking', {
-    cost: {
-      currency: data.Cost__currency,
-      value: data.Cost__value,
-    },
-    start: {
-      address: {
-        location: {
-          lat: data.Start__address__location__lat,
-          lon: data.Start__address__location__lon,
-        },
-        street: data.Start__address__street,
-      },
-      timestamp: null,
-    },
-    end: {
-      address: {
-        location: {
-          lat: data.End__address__location__lat,
-          lon: data.End__address__location__lon,
-        },
-        street: data.End__address__street,
-      },
-      timestamp: null,
-    },
-    ownerid: data.ownerid,
-    distance: data.distance,
-    route: [],
-  })
+  return restclient().post('/api/tracking', data)
     .then(response => {
       console.log("RESPONSE", response);
       return {
