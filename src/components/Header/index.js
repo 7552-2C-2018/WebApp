@@ -63,9 +63,6 @@ export default class Header extends React.Component {
                     <Link to="/application-servers">Application Servers</Link>
                   </NavItem>
                   <NavItem>
-                    <Link to="/reports">Reportes</Link>
-                  </NavItem>
-                  <NavItem>
                     <a href="#" onClick={this.handleLogout}>Cerrar sesión</a>
                   </NavItem>
                 </React.Fragment>
