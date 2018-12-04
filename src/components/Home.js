@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Loader } from 'semantic-ui-react';
 import axios from 'axios';
+import Chart from './Chart';
 import Layout from './Layout';
 import Table from './Table';
 import restclient from '../utils/restclient';
@@ -122,15 +123,24 @@ class Home extends React.Component {
     this.state = {
       showLoading: false,
       modal: false,
+      reportsModal: false,
       isWorking: false,
       currentAppServerId: null,
+      reportsData: [],
     };
     this.toggleModal = this.toggleModal.bind(this);
+    this.toggleReportsModal = this.toggleReportsModal.bind(this);
   }
 
   toggleModal() {
     this.setState({
       modal: !this.state.modal,
+    });
+  }
+
+  toggleReportsModal() {
+    this.setState({
+      reportsModal: !this.state.reportsModal,
     });
   }
 
@@ -160,12 +170,43 @@ class Home extends React.Component {
       })
   }
 
+  requestReports(appServer) {
+    this.setState({
+      currentAppServerId: appServer.id,
+      showLoading: true,
+    });
+    axios.get(`${appServer.url}/stats`)
+      .then(response => {
+        console.log("RESPONSE", response.data);
+        this.setState({
+          isWorking: true,
+          showLoading: false,
+          reportsData: response.data,
+        });
+        this.toggleReportsModal();
+      })
+      .catch(error => {
+        console.log("ERROR", error);
+        this.setState({
+          hasReportErrors: false,
+          showLoading: false,
+          reportsData: [],
+        });
+        this.toggleReportsModal();
+      })
+  }
+
   render() {
     if (!isLoggedIn()) {
       return <Redirect to="/login" />;
     }
     const currentStateButton = row => (
-      <Button color="primary" onClick={() => this.requestState(row.original)}>Consultar estado</Button>
+      <div className="row">
+        <div className="col-md-12">  
+          <Button color="primary" className="float-left" onClick={() => this.requestState(row.original)}>Consultar estado</Button>
+          <Button color="success" className="float-left" onClick={() => this.requestReports(row.original)}>Ver reportes</Button>
+        </div>
+      </div>
     );
     return (
       <Layout title="Application Servers">
@@ -181,6 +222,15 @@ class Home extends React.Component {
           <ModalHeader toggle={this.toggleModal}>Estado del application server #{this.state.currentAppServerId}</ModalHeader>
           <ModalBody>
             {this.state.isWorking ? 'Está prendido' : 'Está apagado'}
+          </ModalBody>
+        </Modal>
+        <Modal isOpen={this.state.reportsModal} toggle={this.toggleReportsModal} size="lg">
+          <ModalHeader toggle={this.toggleReportsModal}>Reportes del application server #{this.state.currentAppServerId}</ModalHeader>
+          <ModalBody>
+            {this.state.hasReportErrors ? 'Hubo problemas al buscar los reportes'
+              : Object.entries(this.state.reportsData).map(([key, reportData]) => (
+                <Chart title={key} data={reportData} xKey="daytime" yKey="totalRequests" />
+              ))}
           </ModalBody>
         </Modal>
         <Loader active={this.state.showLoading} size="massive" />
