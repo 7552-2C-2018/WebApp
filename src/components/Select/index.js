@@ -35,7 +35,7 @@ export default class Select extends React.Component {
           {this.state.currentValue}
         </DropdownToggle>
         <DropdownMenu>
-          {options.map((option, index) => <DropdownItem onClick={() => this.onChange(index, option)}>{option}</DropdownItem>)}
+          {options.map((option, index) => option !== '' && <DropdownItem onClick={() => this.onChange(index, option)}>{option}</DropdownItem>)}
         </DropdownMenu>
       </Dropdown>
     );
