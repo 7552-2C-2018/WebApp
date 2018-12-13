@@ -30,7 +30,7 @@ class Login extends React.Component {
     if (!(username === 'admin' && password === 'admin')) {
       return this.setState({ error: true });
     }
-    axios.post('http://shared-server-25.herokuapp.com/api/auth/token', { id: 7 })
+    axios.post('https://shared-server-25.herokuapp.com/api/auth/token', { id: 7 })
       .then(response => {
         console.log("RESPONSE", response);
         store.set('token', response.data.token);

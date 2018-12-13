@@ -2,7 +2,7 @@ FROM node:latest
 
 RUN npm install webpack -g
 
-ENV PORT 3000
+ENV PORT 8080
 
 WORKDIR /tmp
 COPY package.json /tmp/
